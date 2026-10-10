@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#071827" />
+  <meta name="description" content="Smart Health Assistant — a calm, local-first healthcare organizer." />
+  <title>Smart Health Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://cdn.jsdelivr.net/npm/lucide-static@0.468.0/icons/heart-pulse.svg" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <div class="mobile-scrim" id="mobileScrim" aria-hidden="true"></div>
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-top">
+        <a class="brand" href="#dashboard" data-view-link="dashboard" aria-label="Smart Health Assistant home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="brand-copy"><strong>pulse<span>/</span>desk</strong><small>smart health assistant</small></span>
+        </a>
+        <div class="demo-badge"><span class="status-dot"></span> LOCAL DEMO</div>
+      </div>
+
+      <nav class="main-nav" aria-label="Main sections">
+        <p class="nav-label">Workspace</p>
+        <button class="nav-item is-active" type="button" data-view-link="dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
+        <button class="nav-item" type="button" data-view-link="medicines"><i data-lucide="pill"></i><span>Medicine reminders</span><span class="nav-count" id="medicineNavCount">0</span></button>
+        <button class="nav-item" type="button" data-view-link="appointments"><i data-lucide="calendar-clock"></i><span>My appointments</span><span class="nav-count" id="appointmentNavCount">0</span></button>
+        <button class="nav-item" type="button" data-view-link="health"><i data-lucide="book-open-text"></i><span>Health information</span></button>
+        <button class="nav-item" type="button" data-view-link="hospitals"><i data-lucide="map-pin"></i><span>Nearby hospitals</span></button>
+        <button class="nav-item nav-item-emergency" type="button" data-view-link="emergency"><i data-lucide="siren"></i><span>Emergency access</span></button>
+        <p class="nav-label nav-label-lower">Personal</p>
+        <button class="nav-item" type="button" data-view-link="settings"><i data-lucide="sliders-horizontal"></i><span>Profile & settings</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="nav-item" type="button" data-action="help"><i data-lucide="circle-help"></i><span>Help & privacy</span></button>
+        <button class="nav-item nav-item-muted" type="button" data-action="logout"><i data-lucide="log-out"></i><span>Demo logout</span></button>
+        <div class="sidebar-footnote"><span class="mini-pulse"></span><span>Your data stays in this browser.</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button mobile-menu-button" type="button" data-action="toggle-menu" aria-label="Open navigation"><i data-lucide="menu"></i></button>
+          <div class="breadcrumb"><span>Workspace</span><i data-lucide="chevron-right"></i><strong id="breadcrumbLabel">Dashboard</strong></div>
+        </div>
+        <div class="topbar-right">
+          <label class="global-search" for="globalSearch"><i data-lucide="search"></i><input id="globalSearch" type="search" placeholder="Search your workspace" autocomplete="off" /><kbd>/</kbd></label>
+          <div class="notification-wrap">
+            <button class="icon-button notification-button" type="button" data-action="toggle-notifications" aria-label="Open notifications" aria-expanded="false"><i data-lucide="bell"></i><span class="notification-dot" id="notificationDot"></span></button>
+            <div class="notification-panel" id="notificationPanel" hidden>
+              <div class="popover-heading"><div><strong>Today at a glance</strong><span>Small signals, no noise.</span></div><button class="icon-button icon-button-small" type="button" data-action="close-notifications" aria-label="Close notifications"><i data-lucide="x"></i></button></div>
+              <div id="notificationContent"></div>
+            </div>
+          </div>
+          <button class="profile-chip" type="button" data-view-link="settings"><span class="avatar" id="topAvatar">L</span><span class="profile-chip-copy"><strong id="topProfileName">Lakshmiprasanna</strong><small>Local profile</small></span><i data-lucide="chevron-down"></i></button>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+        <section class="view is-visible" id="view-dashboard" data-view="dashboard" aria-labelledby="dashboardTitle">
+          <div class="page-intro dashboard-intro">
+            <div><p class="eyebrow"><span class="eyebrow-line"></span> Monday, October 9, 2026</p><h1 id="dashboardTitle">Your health, <em>organized.</em></h1><p class="intro-copy">Keep the next step visible, without adding noise to your day.</p></div>
+            <div class="intro-actions"><span class="secure-pill"><i data-lucide="lock-keyhole"></i> Browser-local workspace</span><button class="button button-primary" type="button" data-action="quick-add-medicine"><i data-lucide="plus"></i> Add reminder</button></div>
+          </div>
+
+          <div class="stats-grid" id="dashboardStats"></div>
+
+          <div class="section-heading compact-heading"><div><p class="eyebrow">Make it easy</p><h2>Quick actions</h2></div><span class="section-caption">A few useful shortcuts</span></div>
+          <div class="quick-actions-grid">
+            <button class="quick-action quick-action-blue" type="button" data-action="quick-add-medicine"><span class="quick-action-icon"><i data-lucide="pill"></i></span><span><strong>Add medicine</strong><small>Set a personal reminder</small></span><i class="quick-arrow" data-lucide="arrow-up-right"></i></button>
+            <button class="quick-action quick-action-teal" type="button" data-action="quick-add-appointment"><span class="quick-action-icon"><i data-lucide="calendar-plus"></i></span><span><strong>Add appointment</strong><small>Keep your next visit close</small></span><i class="quick-arrow" data-lucide="arrow-up-right"></i></button>
+            <button class="quick-action quick-action-purple" type="button" data-action="quick-health"><span class="quick-action-icon"><i data-lucide="book-open-check"></i></span><span><strong>Explore information</strong><small>Read general wellness guides</small></span><i class="quick-arrow" data-lucide="arrow-up-right"></i></button>
+            <button class="quick-action quick-action-amber" type="button" data-action="quick-hospitals"><span class="quick-action-icon"><i data-lucide="map"></i></span><span><strong>Find nearby care</strong><small>Open a verified map search</small></span><i class="quick-arrow" data-lucide="arrow-up-right"></i></button>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="card activity-card">
+              <div class="card-heading"><div><p class="eyebrow">Illustrative activity</p><h2>Weekly rhythm</h2></div><span class="trend-pill"><i data-lucide="sparkles"></i> Demo data</span></div>
+              <p class="card-subcopy">A visual placeholder for manually logged habits. It is not a medical measurement.</p>
+              <div class="chart-area"><div class="chart-y-axis"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div><div class="bar-chart" aria-label="Illustrative weekly activity chart" role="img" id="activityChart"></div></div>
+              <div class="chart-legend"><span><i class="legend-dot legend-blue"></i> Focus blocks</span><span><i class="legend-dot legend-teal"></i> Movement breaks</span><span class="chart-note">Illustrative only</span></div>
+            </article>
+            <article class="card wellness-card">
+              <div class="card-heading"><div><p class="eyebrow">A gentler nudge</p><h2>Daily wellness tip</h2></div><span class="tip-orb"><i data-lucide="sun-medium"></i></span></div>
+              <div class="tip-illustration"><div class="tip-ring tip-ring-one"></div><div class="tip-ring tip-ring-two"></div><span><i data-lucide="leaf"></i></span></div>
+              <h3 id="dailyTipTitle">Build a softer landing</h3><p id="dailyTipCopy">A short wind-down routine can make tomorrow feel more manageable. Choose one small habit you can repeat without pressure.</p>
+              <button class="text-button" type="button" data-view-link="health">Browse wellness reads <i data-lucide="arrow-right"></i></button>
+            </article>
+            <article class="card calendar-card">
+              <div class="card-heading"><div><p class="eyebrow">Plan ahead</p><h2>Calendar</h2></div><div class="calendar-controls"><button class="icon-button icon-button-small" type="button" data-action="calendar-prev" aria-label="Previous month"><i data-lucide="chevron-left"></i></button><button class="icon-button icon-button-small" type="button" data-action="calendar-next" aria-label="Next month"><i data-lucide="chevron-right"></i></button></div></div>
+              <div class="calendar-month-row"><strong id="calendarMonthLabel">October 2026</strong><span class="today-label">Today <span class="today-dot"></span></span></div>
+              <div class="calendar-weekdays"><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span></div>
+              <div class="calendar-grid" id="calendarGrid"></div>
+              <div class="calendar-selected" id="calendarSelected"><div class="selected-date-label"><span class="selected-dot"></span><strong id="selectedDateLabel">Select a date</strong></div><div id="selectedDateAppointments" class="selected-appointments"></div></div>
+            </article>
+            <article class="card appointments-card"><div class="card-heading"><div><p class="eyebrow">Coming up</p><h2>Next appointments</h2></div><button class="text-button" type="button" data-view-link="appointments">View all <i data-lucide="arrow-up-right"></i></button></div><div id="dashboardAppointments" class="stack-list"></div></article>
+          </div>
+
+          <div class="dashboard-footer-grid"><article class="card education-spotlight"><div class="spotlight-icon"><i data-lucide="heart-handshake"></i></div><div><p class="eyebrow">Worth remembering</p><h2>Small actions still count.</h2><p>Use this space to organize everyday care, not to diagnose yourself. When something feels urgent, contact a qualified professional or local emergency service.</p></div><button class="button button-secondary" type="button" data-view-link="emergency">Emergency info <i data-lucide="arrow-up-right"></i></button></article><article class="card privacy-card"><div class="privacy-icon"><i data-lucide="shield-check"></i></div><div><p class="eyebrow">Privacy by default</p><h2>Nothing leaves this browser.</h2><p>Your demo records use localStorage and are not encrypted medical storage. Clear browser data or switch devices and they may be lost.</p></div><button class="text-button" type="button" data-view-link="settings">Review settings <i data-lucide="arrow-right"></i></button></article></div>
+        </section>
+
+        <section class="view" id="view-medicines" data-view="medicines" aria-labelledby="medicinesTitle" hidden>
+          <div class="page-intro"><div><p class="eyebrow"><span class="eyebrow-line"></span> Personal routine</p><h1 id="medicinesTitle">Medicine <em>reminders</em></h1><p class="intro-copy">Keep your own instructions close. This tool never recommends doses or medication changes.</p></div><button class="button button-primary" type="button" data-action="toggle-medicine-form"><i data-lucide="plus"></i> Add reminder</button></div>
+          <div class="notice-banner notice-info"><i data-lucide="info"></i><span>Enter dosage or instructions exactly as provided by your healthcare professional. Notes are stored locally in this browser.</span></div>
+          <div class="form-card card collapsible-form" id="medicineFormCard" hidden><div class="card-heading"><div><p class="eyebrow">Personal note</p><h2 id="medicineFormTitle">New medicine reminder</h2></div><button class="icon-button icon-button-small" type="button" data-action="close-medicine-form" aria-label="Close form"><i data-lucide="x"></i></button></div><form id="medicineForm" novalidate><input type="hidden" id="medicineId" /><div class="form-grid"><label class="field field-span-2"><span>Medicine name <b>*</b></span><input id="medicineName" name="medicineName" required placeholder="e.g. Morning supplement" /><small class="field-error" data-error-for="medicineName"></small></label><label class="field"><span>Reminder time <b>*</b></span><input id="medicineTime" name="medicineTime" type="time" required /><small class="field-error" data-error-for="medicineTime"></small></label><label class="field"><span>Start date</span><input id="medicineStartDate" name="medicineStartDate" type="date" /><small class="field-error" data-error-for="medicineStartDate"></small></label><label class="field"><span>Frequency</span><select id="medicineFrequency" name="medicineFrequency"><option>Daily</option><option>Weekdays</option><option>Weekly</option><option>As needed — personal note</option></select></label><label class="field field-span-2"><span>Dosage / instructions <b>*</b></span><input id="medicineInstructions" name="medicineInstructions" required placeholder="Enter your professional guidance here" /><small class="field-error" data-error-for="medicineInstructions"></small></label><label class="field field-span-3"><span>Optional notes</span><textarea id="medicineNotes" name="medicineNotes" rows="3" placeholder="Any personal context or reminder note"></textarea></label></div><div class="form-actions"><button class="button button-secondary" type="button" data-action="close-medicine-form">Cancel</button><button class="button button-primary" type="submit"><i data-lucide="check"></i> Save reminder</button></div></form></div>
+          <div class="section-heading list-heading"><div><p class="eyebrow">Your routine</p><h2>Saved reminders <span class="heading-count" id="medicineHeadingCount">0</span></h2></div><div class="segmented-control" role="tablist" aria-label="Medicine reminder status"><button class="segment is-active" type="button" data-medicine-filter="upcoming">Upcoming</button><button class="segment" type="button" data-medicine-filter="completed">Completed</button></div></div>
+          <div class="content-card card"><div id="medicineList" class="record-list"></div></div>
+        </section>
+
+        <section class="view" id="view-appointments" data-view="appointments" aria-labelledby="appointmentsTitle" hidden>
+          <div class="page-intro"><div><p class="eyebrow"><span class="eyebrow-line"></span> Keep the next visit visible</p><h1 id="appointmentsTitle">My <em>appointments</em></h1><p class="intro-copy">A personal record of appointments you enter. Nothing is booked with a clinic through this demo.</p></div><button class="button button-primary" type="button" data-action="toggle-appointment-form"><i data-lucide="plus"></i> Add appointment</button></div>
+          <div class="notice-banner notice-teal"><i data-lucide="calendar-check-2"></i><span>Appointments are stored on this device only. Confirm dates and times with your clinic directly.</span></div>
+          <div class="form-card card collapsible-form" id="appointmentFormCard" hidden><div class="card-heading"><div><p class="eyebrow">Personal record</p><h2 id="appointmentFormTitle">New appointment</h2></div><button class="icon-button icon-button-small" type="button" data-action="close-appointment-form" aria-label="Close form"><i data-lucide="x"></i></button></div><form id="appointmentForm" novalidate><input type="hidden" id="appointmentId" /><div class="form-grid"><label class="field"><span>Doctor name <b>*</b></span><input id="appointmentDoctor" required placeholder="e.g. Dr. Anita Rao" /><small class="field-error" data-error-for="appointmentDoctor"></small></label><label class="field"><span>Hospital / clinic <b>*</b></span><input id="appointmentHospital" required placeholder="e.g. City clinic" /><small class="field-error" data-error-for="appointmentHospital"></small></label><label class="field"><span>Date <b>*</b></span><input id="appointmentDate" type="date" required /><small class="field-error" data-error-for="appointmentDate"></small></label><label class="field"><span>Time <b>*</b></span><input id="appointmentTime" type="time" required /><small class="field-error" data-error-for="appointmentTime"></small></label><label class="field field-span-2"><span>Purpose <b>*</b></span><input id="appointmentPurpose" required placeholder="e.g. Routine check-in" /><small class="field-error" data-error-for="appointmentPurpose"></small></label><label class="field field-span-3"><span>Optional notes</span><textarea id="appointmentNotes" rows="3" placeholder="Questions to bring or personal notes"></textarea></label></div><div class="form-actions"><button class="button button-secondary" type="button" data-action="close-appointment-form">Cancel</button><button class="button button-primary" type="submit"><i data-lucide="check"></i> Save appointment</button></div></form></div>
+          <div class="appointment-toolbar card"><label class="inline-search" for="appointmentSearch"><i data-lucide="search"></i><input id="appointmentSearch" type="search" placeholder="Search doctor or clinic" /></label><div class="segmented-control" role="tablist" aria-label="Appointment status"><button class="segment is-active" type="button" data-appointment-filter="upcoming">Upcoming</button><button class="segment" type="button" data-appointment-filter="past">Past</button><button class="segment" type="button" data-appointment-filter="all">All</button></div></div>
+          <div class="content-card card"><div id="appointmentList" class="record-list"></div></div>
+        </section>
+
+        <section class="view" id="view-health" data-view="health" aria-labelledby="healthTitle" hidden>
+          <div class="page-intro"><div><p class="eyebrow"><span class="eyebrow-line"></span> Learn at your pace</p><h1 id="healthTitle">Health <em>information</em></h1><p class="intro-copy">Clear, general education for everyday wellbeing — never a substitute for professional advice.</p></div><span class="source-pill"><i data-lucide="badge-check"></i> Official sources linked</span></div>
+          <div class="notice-banner notice-purple"><i data-lucide="book-open"></i><span>This content is for general educational purposes only and does not replace professional medical advice.</span></div>
+          <div id="healthLibraryView"><div class="library-toolbar card"><label class="inline-search" for="healthSearch"><i data-lucide="search"></i><input id="healthSearch" type="search" placeholder="Search sleep, hydration, stress..." /></label><select id="healthCategory" aria-label="Filter by health information category"><option value="all">All categories</option><option value="sleep">Sleep</option><option value="nutrition">Nutrition</option><option value="movement">Movement</option><option value="wellbeing">Wellbeing</option><option value="prevention">Prevention</option></select></div><div class="resource-grid" id="resourceGrid"></div></div>
+          <article class="article-reader card" id="articleReader" hidden><button class="back-button" type="button" data-action="close-article"><i data-lucide="arrow-left"></i> Back to library</button><div id="articleContent"></div></article>
+        </section>
+
+        <section class="view" id="view-hospitals" data-view="hospitals" aria-labelledby="hospitalsTitle" hidden>
+          <div class="page-intro"><div><p class="eyebrow"><span class="eyebrow-line"></span> Find a care option</p><h1 id="hospitalsTitle">Nearby <em>hospitals</em></h1><p class="intro-copy">Use a map search to find current, verified places near a location you choose.</p></div><span class="source-pill source-pill-amber"><i data-lucide="external-link"></i> No live directory connected</span></div>
+          <div class="hospital-layout"><article class="card hospital-search-card"><div class="hospital-icon"><i data-lucide="map-pin-house"></i></div><p class="eyebrow">Manual search first</p><h2>Where should we look?</h2><p>Enter a city, locality, postal code, or landmark. We will open a Google Maps search — we do not invent results or claim availability.</p><form id="hospitalSearchForm" class="hospital-form"><label class="field"><span>Search location <b>*</b></span><input id="hospitalLocation" required placeholder="e.g. Indiranagar, Bengaluru" /><small class="field-error" data-error-for="hospitalLocation"></small></label><button class="button button-primary button-wide" type="submit"><i data-lucide="search"></i> Search in Google Maps</button></form><div class="location-divider"><span>or</span></div><button class="button button-secondary button-wide" type="button" data-action="use-location"><i data-lucide="crosshair"></i> Use my current location</button><p class="form-hint"><i data-lucide="shield"></i> Location is requested only after you choose this action. If access is denied, manual search still works.</p></article><article class="card hospital-result-card" id="hospitalResultCard"><div class="empty-state empty-state-map"><div class="empty-icon"><i data-lucide="map"></i></div><h3>Your search will appear here</h3><p>We will show the exact search phrase and a direct map action. Live hospital names, addresses, ratings, distances, opening hours, and emergency availability require a configured places provider.</p></div></article></div>
+          <div class="notice-banner notice-info"><i data-lucide="route"></i><span>For urgent concerns, use the Emergency Access section or contact local emergency services directly. This finder does not dispatch care.</span></div>
+        </section>
+
+        <section class="view" id="view-emergency" data-view="emergency" aria-labelledby="emergencyTitle" hidden>
+          <div class="page-intro emergency-intro"><div><p class="eyebrow eyebrow-danger"><span class="eyebrow-line"></span> Keep this visible, not alarming</p><h1 id="emergencyTitle">Emergency <em>quick access</em></h1><p class="intro-copy">If someone may be in immediate danger, contact your local emergency service now.</p></div><span class="config-pill"><i data-lucide="settings-2"></i> India-focused demo</span></div>
+          <div class="emergency-hero card"><div class="emergency-hero-copy"><span class="emergency-kicker"><i data-lucide="siren"></i> Immediate help</span><h2>Call local emergency services when every second matters.</h2><p>This app does not dispatch ambulances, contact emergency services automatically, silently place calls, transmit your location, or send messages. Choose a phone or map action yourself.</p><div class="emergency-actions"><a class="button button-danger" href="tel:112"><i data-lucide="phone-call"></i> Call 112</a><button class="button button-light" type="button" data-action="emergency-maps"><i data-lucide="map-pin"></i> Find nearby hospitals</button></div></div><div class="emergency-number"><span>India emergency number</span><strong>112</strong><small>Pan-India emergency response<br />Verify applicable local arrangements.</small></div></div>
+          <div class="emergency-grid"><article class="card emergency-step"><span class="step-number">01</span><i data-lucide="phone"></i><h3>Call directly</h3><p>Use the number your local emergency service provides. Keep the line open and follow the operator’s instructions.</p></article><article class="card emergency-step"><span class="step-number">02</span><i data-lucide="map"></i><h3>Open a map</h3><p>Search nearby hospitals in a map app and choose the result you trust. Check the route before you travel.</p></article><article class="card emergency-step"><span class="step-number">03</span><i data-lucide="message-circle-warning"></i><h3>Share clearly</h3><p>Tell a trusted person what is happening. This demo cannot send messages or share your location for you.</p></article></div>
+          <div class="notice-banner notice-danger"><i data-lucide="triangle-alert"></i><span>This is general emergency information, not medical advice. If you are unsure whether a situation is urgent, seek professional help.</span></div>
+        </section>
+
+        <section class="view" id="view-settings" data-view="settings" aria-labelledby="settingsTitle" hidden>
+          <div class="page-intro"><div><p class="eyebrow"><span class="eyebrow-line"></span> Your local workspace</p><h1 id="settingsTitle">Profile & <em>settings</em></h1><p class="intro-copy">Make the dashboard feel like yours while keeping the storage boundary clear.</p></div><span class="source-pill"><i data-lucide="hard-drive"></i> Stored on this device</span></div>
+          <div class="settings-layout"><div class="settings-main"><article class="card settings-card"><div class="settings-card-heading"><div class="settings-avatar avatar" id="settingsAvatar">L</div><div><p class="eyebrow">Local demo profile</p><h2>How should we call you?</h2><p>This is not a cloud account. No sign-in or sync is enabled.</p></div></div><form id="profileForm" class="settings-form"><label class="field"><span>Display name</span><input id="profileName" maxlength="40" placeholder="Your name" /></label><button class="button button-primary" type="submit"><i data-lucide="save"></i> Save profile</button></form></article><article class="card settings-card"><div class="card-heading"><div><p class="eyebrow">Interface</p><h2>Make it comfortable</h2></div><i class="settings-heading-icon" data-lucide="palette"></i></div><div class="setting-row"><div><strong>Theme</strong><span>Switch between the default midnight view and a brighter reading mode.</span></div><label class="switch"><input id="themeToggle" type="checkbox" /><span class="switch-track"></span><span class="switch-label" id="themeToggleLabel">Midnight</span></label></div><div class="setting-row"><div><strong>Browser notifications</strong><span>Not enabled in this demo. Browser notifications are not reliable background reminders.</span></div><button class="button button-secondary button-small" type="button" data-action="notification-info">Learn more</button></div></article><article class="card settings-card privacy-settings"><div class="card-heading"><div><p class="eyebrow">Privacy & storage</p><h2>Know the boundary</h2></div><i class="settings-heading-icon" data-lucide="shield"></i></div><div class="privacy-points"><div><i data-lucide="database"></i><span><strong>Browser-local</strong> Medicines, appointments, profile, and saved resources use localStorage in this browser.</span></div><div><i data-lucide="lock-keyhole-open"></i><span><strong>Not encrypted medical storage</strong> Do not add information you would not want stored in a browser demo.</span></div><div><i data-lucide="refresh-ccw"></i><span><strong>Easy to clear</strong> Clearing browser storage or changing devices may remove your records.</span></div><div><i data-lucide="badge-alert"></i><span><strong>No compliance claim</strong> This project does not claim HIPAA, GDPR, or other medical-data compliance.</span></div></div><button class="button button-danger-outline" type="button" data-action="clear-data"><i data-lucide="trash-2"></i> Clear local demo data</button></article></div><aside class="settings-aside"><article class="card help-card"><div class="help-orb"><i data-lucide="life-buoy"></i></div><p class="eyebrow">Need a quick tour?</p><h2>Use the dashboard in three steps.</h2><ol><li><span>1</span><p>Add a reminder or appointment from a quick action.</p></li><li><span>2</span><p>Use the calendar and upcoming cards to keep the next step visible.</p></li><li><span>3</span><p>Read general wellness information and open official sources when you need more context.</p></li></ol></article><article class="card version-card"><span class="version-mark"><i data-lucide="heart-pulse"></i></span><strong>pulse/desk</strong><span>Smart Health Assistant</span><small>Frontend demo · v1.0</small></article></aside></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <div class="modal-backdrop" id="modalBackdrop" hidden><div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="confirm-icon" id="confirmIcon"><i data-lucide="trash-2"></i></div><h2 id="confirmTitle">Are you sure?</h2><p id="confirmCopy">This action cannot be undone.</p><div class="modal-actions"><button class="button button-secondary" type="button" data-action="close-modal">Cancel</button><button class="button button-danger" type="button" id="confirmAction">Confirm</button></div></div></div>
+</body>
+</html>
